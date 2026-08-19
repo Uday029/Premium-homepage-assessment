@@ -417,8 +417,8 @@ html.dark .mock-wrapper::before {
 }
 
 .badge-2 {
-    bottom: 30px;
-    left: -40px;
+    bottom: -20px;
+    left: -30px;
     animation-delay: 2s;
 }
 
