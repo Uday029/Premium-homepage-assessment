@@ -204,7 +204,6 @@ body {
 .mock-wrapper {
     position: relative;
     transition: transform 0.1s ease-out;
-    transform-style: preserve-3d;
 }
 
 /* Animated Glowing Border behind the mock card */
@@ -218,7 +217,6 @@ body {
     background-size: 200% 200%;
     animation: gradient-border 6s linear infinite;
     opacity: 0.3;
-    transform: translateZ(10px);
 }
 
 html.dark .mock-wrapper::before {
@@ -238,7 +236,6 @@ html.dark .mock-wrapper::before {
     padding: 2.5rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(10px);
-    transform: translateZ(20px);
 }
 
 .mock-header {
@@ -359,7 +356,6 @@ html.dark .mock-wrapper::before {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     animation: float 6s ease-in-out infinite;
     z-index: 10;
-    transform: translateZ(50px);
 }
 
 .badge-1 {
@@ -375,9 +371,9 @@ html.dark .mock-wrapper::before {
 }
 
 @keyframes float {
-    0% { transform: translateZ(50px) translateY(0px); }
-    50% { transform: translateZ(50px) translateY(-15px); }
-    100% { transform: translateZ(50px) translateY(0px); }
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
 }
 
 /* Features Grid with Hover Spotlight (Linear-style) */
