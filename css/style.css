@@ -42,7 +42,7 @@ body {
     position: relative;
 }
 
-/* Background Premium Glows (Now with drifting animation) */
+/* Background Premium Glows */
 .bg-glow {
     position: absolute;
     top: -10%;
@@ -168,18 +168,13 @@ body {
     font-weight: 600;
     border-radius: 99px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s, box-shadow 0.3s;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .cta-button:hover {
     background-color: var(--accent-hover);
-    transform: translateY(-3px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-.cta-button:active {
-    transform: translateY(0);
 }
 
 .secondary-button {
@@ -203,13 +198,37 @@ body {
     padding: 3rem 2rem 6rem;
     max-width: 900px;
     margin: 0 auto;
-    perspective: 1000px; /* Needed for 3D parallax */
+    perspective: 1000px;
 }
 
 .mock-wrapper {
     position: relative;
-    transition: transform 0.1s ease-out; /* Smooth follow for mousemove */
+    transition: transform 0.1s ease-out;
     transform-style: preserve-3d;
+}
+
+/* Animated Glowing Border behind the mock card */
+.mock-wrapper::before {
+    content: "";
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, #8b5cf6, transparent 40%, #3b82f6, transparent 80%);
+    border-radius: 22px;
+    z-index: -1;
+    background-size: 200% 200%;
+    animation: gradient-border 6s linear infinite;
+    opacity: 0.3;
+    transform: translateZ(10px);
+}
+
+html.dark .mock-wrapper::before {
+    opacity: 0.6;
+}
+
+@keyframes gradient-border {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .mock-card {
@@ -219,7 +238,7 @@ body {
     padding: 2.5rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(10px);
-    transform: translateZ(20px); /* Lift off the page */
+    transform: translateZ(20px);
 }
 
 .mock-header {
@@ -328,7 +347,7 @@ body {
     transform: translateY(-50%) translateX(0);
 }
 
-/* Floating Elements with 3D Z-translation */
+/* Floating Elements */
 .floating-badge {
     position: absolute;
     background: var(--card-bg);
@@ -340,7 +359,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     animation: float 6s ease-in-out infinite;
     z-index: 10;
-    transform: translateZ(50px); /* Floats higher than the card in 3D space */
+    transform: translateZ(50px);
 }
 
 .badge-1 {
@@ -361,7 +380,7 @@ body {
     100% { transform: translateZ(50px) translateY(0px); }
 }
 
-/* Features Grid */
+/* Features Grid with Hover Spotlight (Linear-style) */
 .features {
     padding: 4rem 2rem 8rem;
     max-width: 1200px;
@@ -390,16 +409,38 @@ body {
     gap: 2rem;
 }
 
+.features-grid:hover .feature-card::before {
+    opacity: 1;
+}
+
 .feature-card {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
     padding: 2.5rem;
     border-radius: 16px;
+    position: relative;
+    overflow: hidden;
     transition: all 0.3s ease;
 }
 
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(139, 92, 246, 0.1), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.feature-card * {
+    position: relative;
+    z-index: 1;
+}
+
 .feature-card:hover {
-    border-color: #8b5cf6;
+    border-color: rgba(139, 92, 246, 0.5);
     box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1);
 }
 
@@ -432,21 +473,12 @@ body {
     color: var(--text-muted);
 }
 
-.footer-sub {
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
-    opacity: 0.7;
-}
-
 /* Modal */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(8px); /* stronger blur for premium feel */
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -479,66 +511,30 @@ body {
 
 .close-btn {
     position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: color 0.2s;
+    top: 1rem; right: 1.5rem;
+    background: none; border: none;
+    font-size: 1.5rem; color: var(--text-muted);
+    cursor: pointer; transition: color 0.2s;
 }
 
-.close-btn:hover {
-    color: var(--text);
-}
+.close-btn:hover { color: var(--text); }
 
-.modal-header h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.modal-header p {
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-}
+.modal-header h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+.modal-header p { color: var(--text-muted); margin-bottom: 2rem; }
 
 .modal-input {
-    width: 100%;
-    padding: 1rem;
+    width: 100%; padding: 1rem;
     border: 1px solid var(--card-border);
-    border-radius: 12px;
-    background: var(--bg);
-    color: var(--text);
-    margin-bottom: 1rem;
-    font-size: 1rem;
+    border-radius: 12px; background: var(--bg);
+    color: var(--text); margin-bottom: 1rem; font-size: 1rem;
 }
+.modal-input:focus { outline: none; border-color: #8b5cf6; }
 
-.modal-input:focus {
-    outline: none;
-    border-color: #8b5cf6;
-}
-
-.full-width {
-    width: 100%;
-}
-
-.modal-footer-text {
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-top: 1rem;
-}
-
+.full-width { width: 100%; }
+.modal-footer-text { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem; }
 .success-msg {
-    text-align: center;
-    color: #10b981;
-    font-size: 0.95rem;
-    padding: 1rem;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 12px;
+    text-align: center; color: #10b981; font-size: 0.95rem; padding: 1rem;
+    background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px;
 }
 
 /* Scroll Animations */
@@ -547,7 +543,6 @@ body {
     transform: translateY(30px);
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
@@ -555,19 +550,9 @@ body {
 
 /* Mobile */
 @media (max-width: 768px) {
-    .badge-1, .badge-2 {
-        display: none;
-    }
-    .hero {
-        padding: 4rem 1rem 2rem;
-    }
-    .mock-card {
-        padding: 1.5rem;
-    }
-    .exercise-row {
-        padding: 1rem 0.5rem;
-    }
-    .mock-wrapper {
-        transform: none !important; /* disable 3D parallax on mobile */
-    }
+    .badge-1, .badge-2 { display: none; }
+    .hero { padding: 4rem 1rem 2rem; }
+    .mock-card { padding: 1.5rem; }
+    .exercise-row { padding: 1rem 0.5rem; }
+    .mock-wrapper { transform: none !important; }
 }

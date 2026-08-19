@@ -33,10 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. 3D Floating Parallax Effect (Modern Website design)
+    // 2. 3D Floating Parallax Effect for Product Card
     const wrapper = document.querySelector('.mock-wrapper');
-    
-    // Only apply on desktop
     if (window.innerWidth > 768) {
         wrapper.addEventListener('mousemove', (e) => {
             const rect = wrapper.getBoundingClientRect();
@@ -46,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            // Calculate rotation up to 8 degrees
             const rotateX = ((y - centerY) / centerY) * -8;
             const rotateY = ((x - centerX) / centerX) * 8;
             
@@ -58,13 +55,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Modal & Data Collection Logic
+    // 3. Magnetic Button Effect (Super Premium Interaction)
+    const ctaButton = document.getElementById('open-modal-btn');
+    if (window.innerWidth > 768) {
+        ctaButton.addEventListener('mousemove', (e) => {
+            const rect = ctaButton.getBoundingClientRect();
+            const h = rect.width / 2;
+            const v = rect.height / 2;
+            const x = e.clientX - rect.left - h;
+            const y = e.clientY - rect.top - v;
+            
+            // Subtle pull towards cursor
+            ctaButton.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
+        });
+        
+        ctaButton.addEventListener('mouseleave', () => {
+            ctaButton.style.transform = `translate(0px, 0px) scale(1)`;
+        });
+    }
+
+    // 4. Spotlight Hover Effect for Features Grid (Linear-style)
+    const featuresGrid = document.querySelector('.features-grid');
+    featuresGrid.addEventListener('mousemove', (e) => {
+        for (const card of document.querySelectorAll('.feature-card')) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+    });
+
+    // 5. Modal & Data Collection Logic
     const modal = document.getElementById('auth-modal');
-    const openBtn = document.getElementById('open-modal-btn');
     const closeBtn = document.getElementById('close-modal');
     const waitlistForm = document.getElementById('waitlist-form');
 
-    openBtn.addEventListener('click', () => {
+    ctaButton.addEventListener('click', () => {
         modal.classList.remove('hidden');
     });
 
@@ -78,32 +105,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Realistically "Collect" the email
     waitlistForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const emailInput = document.querySelector('.modal-input');
         const email = emailInput.value;
         
-        // Save the collected email to local storage so it persists
         let waitlist = JSON.parse(localStorage.getItem('log_waitlist') || '[]');
         waitlist.push({ email, date: new Date().toISOString() });
         localStorage.setItem('log_waitlist', JSON.stringify(waitlist));
         
-        // Log it to the console to verify collection works
         console.log(`[Log Application] Successfully collected waitlist email: ${email}`);
 
-        // Update the UI to show personalized success
         waitlistForm.innerHTML = `<div class="success-msg">Success! <b>${email}</b> is securely added to the waitlist.</div>`;
         
-        // Close modal and reload page after a delay
         setTimeout(() => {
             modal.classList.add('hidden');
             setTimeout(() => location.reload(), 500); 
         }, 3000);
     });
 
-    // 4. Scroll Reveal Animations
+    // 6. Scroll Reveal Animations
     const reveals = document.querySelectorAll('.reveal');
     const revealOptions = {
         threshold: 0.1,
@@ -133,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 100);
 
-    // 5. Easter Egg: Konami Code
+    // 7. Easter Egg: Konami Code
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
 
