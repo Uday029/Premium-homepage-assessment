@@ -1,81 +1,140 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log. | Track your lifts.</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar">
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+    
+    <nav class="navbar reveal">
         <div class="nav-brand">Log.</div>
         <button id="theme-toggle" aria-label="Toggle Dark Mode">
-            <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
         </button>
     </nav>
 
     <main>
-        <section class="hero">
+        <section class="hero reveal">
             <div class="hero-content">
-                <h1 id="hero-title">Track your lifts.<br>Nothing else.</h1>
-                <p class="hero-subtitle">No social feeds. No ads. No fabricated metrics. Just a blazing fast log for your training.</p>
-                <button class="cta-button">Start logging (free)</button>
+                <div class="pill-badge">Early Access v1.0</div>
+                <h1 id="hero-title">Track your lifts.<br><span class="text-gradient">Nothing else.</span></h1>
+                <p class="hero-subtitle">No social feeds. No ads. No fabricated metrics. Just a blazing fast, premium log for your training.</p>
+                <div class="hero-actions">
+                    <button id="open-modal-btn" class="cta-button">Start logging (free)</button>
+                    <button class="secondary-button" onclick="document.querySelector('.features').scrollIntoView({behavior: 'smooth'})">Learn more</button>
+                </div>
             </div>
         </section>
 
-        <section class="product-showcase">
-            <div class="mock-card">
-                <div class="mock-header">
-                    <h2>Monday, Oct 12</h2>
-                    <span class="workout-type">Upper Body</span>
+        <section class="product-showcase reveal">
+            <div class="mock-wrapper">
+                <div class="mock-card">
+                    <div class="mock-header">
+                        <h2>Monday, Oct 12</h2>
+                        <span class="workout-type">Upper Body</span>
+                    </div>
+                    <div class="mock-body">
+                        <div class="exercise-row group">
+                            <div class="exercise-info">
+                                <span class="exercise-name">Bench Press</span>
+                                <span class="exercise-sets">3 sets</span>
+                            </div>
+                            <div class="exercise-details">
+                                <span class="weight">225 lbs</span>
+                                <span class="reps">5, 5, 4</span>
+                            </div>
+                            <div class="hover-reveal">
+                                <span class="tag">1RM: 253 lbs</span>
+                            </div>
+                        </div>
+
+                        <div class="exercise-row group">
+                            <div class="exercise-info">
+                                <span class="exercise-name">Pull-ups</span>
+                                <span class="exercise-sets">4 sets</span>
+                            </div>
+                            <div class="exercise-details">
+                                <span class="weight">Bodyweight</span>
+                                <span class="reps">10, 8, 8, 6</span>
+                            </div>
+                            <div class="hover-reveal">
+                                <span class="tag">Vol: 32 reps</span>
+                            </div>
+                        </div>
+
+                        <div class="exercise-row group">
+                            <div class="exercise-info">
+                                <span class="exercise-name">Overhead Press</span>
+                                <span class="exercise-sets">3 sets</span>
+                            </div>
+                            <div class="exercise-details">
+                                <span class="weight">135 lbs</span>
+                                <span class="reps">5, 5, 5</span>
+                            </div>
+                            <div class="hover-reveal">
+                                <span class="tag">1RM: 155 lbs</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mock-body">
-                    <div class="exercise-row group">
-                        <div class="exercise-info">
-                            <span class="exercise-name">Bench Press</span>
-                            <span class="exercise-sets">3 sets</span>
-                        </div>
-                        <div class="exercise-details">
-                            <span class="weight">225 lbs</span>
-                            <span class="reps">5, 5, 4</span>
-                        </div>
-                        <div class="hover-reveal">
-                            <span class="tag">1RM: 253 lbs</span>
-                        </div>
-                    </div>
+                <!-- Floating design elements -->
+                <div class="floating-badge badge-1">📈 Volume up 12%</div>
+                <div class="floating-badge badge-2">🔥 3 Day Streak</div>
+            </div>
+        </section>
 
-                    <div class="exercise-row group">
-                        <div class="exercise-info">
-                            <span class="exercise-name">Pull-ups</span>
-                            <span class="exercise-sets">4 sets</span>
-                        </div>
-                        <div class="exercise-details">
-                            <span class="weight">Bodyweight</span>
-                            <span class="reps">10, 8, 8, 6</span>
-                        </div>
-                        <div class="hover-reveal">
-                            <span class="tag">Vol: 32 reps</span>
-                        </div>
-                    </div>
-
-                    <div class="exercise-row group">
-                        <div class="exercise-info">
-                            <span class="exercise-name">Overhead Press</span>
-                            <span class="exercise-sets">3 sets</span>
-                        </div>
-                        <div class="exercise-details">
-                            <span class="weight">135 lbs</span>
-                            <span class="reps">5, 5, 5</span>
-                        </div>
-                        <div class="hover-reveal">
-                            <span class="tag">1RM: 155 lbs</span>
-                        </div>
-                    </div>
+        <section class="features reveal">
+            <div class="features-header">
+                <h2>Built for discipline.</h2>
+                <p>Everything you need to track progress, zero fluff.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-wrap">📈</div>
+                    <h3>Auto 1RM</h3>
+                    <p>Calculates your estimated 1 Rep Max instantly as you log your sets.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-wrap">📊</div>
+                    <h3>Volume Tracking</h3>
+                    <p>Monitors your total workload per muscle group automatically over time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-wrap">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Keyboard-first input so you can rest, log, and get back to lifting.</p>
                 </div>
             </div>
         </section>
     </main>
+
+    <footer class="site-footer reveal">
+        <p>&copy; 2026 Log. All rights reserved.</p>
+        <p class="footer-sub">Build it like you mean it.</p>
+    </footer>
+
+    <!-- Interactive Modal -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-modal" class="close-btn">&times;</button>
+            <div class="modal-header">
+                <h3>Ready to get stronger?</h3>
+                <p>Enter your email to reserve your spot.</p>
+            </div>
+            <form id="waitlist-form">
+                <input type="email" class="modal-input" placeholder="you@example.com" required>
+                <button type="submit" class="cta-button full-width">Join Waitlist</button>
+            </form>
+            <p class="modal-footer-text">No spam. Just gains.</p>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
 </body>
 </html>
