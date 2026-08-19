@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Default to dark mode for a more premium feel, unless user explicitly chose light
     if (savedTheme === 'light') {
         html.classList.remove('dark');
         moonIcon.style.display = 'block';
@@ -34,7 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. Modal Logic for CTA Button
+    // 2. 3D Floating Parallax Effect (Modern Website design)
+    const wrapper = document.querySelector('.mock-wrapper');
+    
+    // Only apply on desktop
+    if (window.innerWidth > 768) {
+        wrapper.addEventListener('mousemove', (e) => {
+            const rect = wrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Calculate rotation up to 8 degrees
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+            
+            wrapper.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        wrapper.addEventListener('mouseleave', () => {
+            wrapper.style.transform = `rotateX(0deg) rotateY(0deg)`;
+        });
+    }
+
+    // 3. Modal & Data Collection Logic
     const modal = document.getElementById('auth-modal');
     const openBtn = document.getElementById('open-modal-btn');
     const closeBtn = document.getElementById('close-modal');
@@ -48,25 +72,38 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('hidden');
     });
 
-    // Close when clicking outside the modal content
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.add('hidden');
         }
     });
 
-    // Handle form submit (mock interaction)
+    // Realistically "Collect" the email
     waitlistForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        waitlistForm.innerHTML = '<div class="success-msg">Success! You are on the waitlist.</div>';
+        
+        const emailInput = document.querySelector('.modal-input');
+        const email = emailInput.value;
+        
+        // Save the collected email to local storage so it persists
+        let waitlist = JSON.parse(localStorage.getItem('log_waitlist') || '[]');
+        waitlist.push({ email, date: new Date().toISOString() });
+        localStorage.setItem('log_waitlist', JSON.stringify(waitlist));
+        
+        // Log it to the console to verify collection works
+        console.log(`[Log Application] Successfully collected waitlist email: ${email}`);
+
+        // Update the UI to show personalized success
+        waitlistForm.innerHTML = `<div class="success-msg">Success! <b>${email}</b> is securely added to the waitlist.</div>`;
+        
+        // Close modal and reload page after a delay
         setTimeout(() => {
             modal.classList.add('hidden');
-            // reset form after hiding
             setTimeout(() => location.reload(), 500); 
-        }, 2000);
+        }, 3000);
     });
 
-    // 3. Scroll Reveal Animations
+    // 4. Scroll Reveal Animations
     const reveals = document.querySelectorAll('.reveal');
     const revealOptions = {
         threshold: 0.1,
@@ -75,9 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const revealOnScroll = new IntersectionObserver(function(entries, observer) {
         entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            } else {
+            if (entry.isIntersecting) {
                 entry.target.classList.add('active');
                 observer.unobserve(entry.target);
             }
@@ -88,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
         revealOnScroll.observe(reveal);
     });
 
-    // Fire it once on load for elements already in viewport
     setTimeout(() => {
         reveals.forEach(reveal => {
             const windowHeight = window.innerHeight;
@@ -99,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 100);
 
-    // 4. Easter Egg: Konami Code
+    // 5. Easter Egg: Konami Code
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
 

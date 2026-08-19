@@ -42,7 +42,7 @@ body {
     position: relative;
 }
 
-/* Background Premium Glows */
+/* Background Premium Glows (Now with drifting animation) */
 .bg-glow {
     position: absolute;
     top: -10%;
@@ -52,6 +52,7 @@ body {
     background: radial-gradient(circle, var(--gradient-1) 0%, transparent 70%);
     z-index: -1;
     pointer-events: none;
+    animation: drift 20s ease-in-out infinite;
 }
 .bg-glow-2 {
     position: absolute;
@@ -62,6 +63,14 @@ body {
     background: radial-gradient(circle, var(--gradient-2) 0%, transparent 70%);
     z-index: -1;
     pointer-events: none;
+    animation: drift 25s ease-in-out infinite reverse;
+}
+
+@keyframes drift {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(50px, -50px) scale(1.1); }
+    66% { transform: translate(-30px, 40px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
 }
 
 /* Navbar */
@@ -105,6 +114,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     position: relative;
+    z-index: 1;
 }
 
 .pill-badge {
@@ -193,10 +203,13 @@ body {
     padding: 3rem 2rem 6rem;
     max-width: 900px;
     margin: 0 auto;
+    perspective: 1000px; /* Needed for 3D parallax */
 }
 
 .mock-wrapper {
     position: relative;
+    transition: transform 0.1s ease-out; /* Smooth follow for mousemove */
+    transform-style: preserve-3d;
 }
 
 .mock-card {
@@ -205,12 +218,8 @@ body {
     border-radius: 20px;
     padding: 2.5rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease;
     backdrop-filter: blur(10px);
-}
-
-.mock-card:hover {
-    transform: translateY(-5px);
+    transform: translateZ(20px); /* Lift off the page */
 }
 
 .mock-header {
@@ -319,7 +328,7 @@ body {
     transform: translateY(-50%) translateX(0);
 }
 
-/* Floating Elements */
+/* Floating Elements with 3D Z-translation */
 .floating-badge {
     position: absolute;
     background: var(--card-bg);
@@ -331,6 +340,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     animation: float 6s ease-in-out infinite;
     z-index: 10;
+    transform: translateZ(50px); /* Floats higher than the card in 3D space */
 }
 
 .badge-1 {
@@ -346,9 +356,9 @@ body {
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+    0% { transform: translateZ(50px) translateY(0px); }
+    50% { transform: translateZ(50px) translateY(-15px); }
+    100% { transform: translateZ(50px) translateY(0px); }
 }
 
 /* Features Grid */
@@ -436,7 +446,7 @@ body {
     width: 100vw;
     height: 100vh;
     background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px); /* stronger blur for premium feel */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -524,9 +534,10 @@ body {
 .success-msg {
     text-align: center;
     color: #10b981;
-    font-weight: 600;
+    font-size: 0.95rem;
     padding: 1rem;
     background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
     border-radius: 12px;
 }
 
@@ -545,7 +556,7 @@ body {
 /* Mobile */
 @media (max-width: 768px) {
     .badge-1, .badge-2 {
-        display: none; /* Hide floating badges on mobile to prevent overflow */
+        display: none;
     }
     .hero {
         padding: 4rem 1rem 2rem;
@@ -555,5 +566,8 @@ body {
     }
     .exercise-row {
         padding: 1rem 0.5rem;
+    }
+    .mock-wrapper {
+        transform: none !important; /* disable 3D parallax on mobile */
     }
 }
