@@ -33,20 +33,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. 3D Floating Parallax Effect for Product Card
+    // 2. Sticky Navbar Blur Logic
+    const navbar = document.querySelector('.navbar-container');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // 3. 3D Floating Parallax Effect for Product Card
     const showcase = document.querySelector('.product-showcase');
     const wrapper = document.querySelector('.mock-wrapper');
     if (window.innerWidth > 768) {
         showcase.addEventListener('mousemove', (e) => {
             const rect = wrapper.getBoundingClientRect();
-            // Calculate center based on the actual card's position on screen
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             
             const x = e.clientX - centerX;
             const y = e.clientY - centerY;
             
-            // Inverted rotation to push DOWN on hover. Clamp to max 5 degrees.
             const rawRotateX = (y / (rect.height / 2)) * -5;
             const rawRotateY = (x / (rect.width / 2)) * -5; 
             
@@ -61,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Magnetic Button Effect (Super Premium Interaction)
+    // 4. Magnetic Button Effect
     const ctaButton = document.getElementById('open-modal-btn');
     if (window.innerWidth > 768) {
         ctaButton.addEventListener('mousemove', (e) => {
@@ -71,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.clientX - rect.left - h;
             const y = e.clientY - rect.top - v;
             
-            // Subtle pull towards cursor
             ctaButton.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
         });
         
@@ -80,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Spotlight Hover Effect for Features Grid (Linear-style)
+    // 5. Spotlight Hover Effect for Features Grid
     const featuresGrid = document.querySelector('.features-grid');
     featuresGrid.addEventListener('mousemove', (e) => {
         for (const card of document.querySelectorAll('.feature-card')) {
@@ -92,30 +99,57 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 5. Modal & Data Collection Logic
+    // 6. Modal & Keyboard Shortcuts Logic
     const modal = document.getElementById('auth-modal');
     const closeBtn = document.getElementById('close-modal');
     const waitlistForm = document.getElementById('waitlist-form');
+    const modalInput = document.querySelector('.modal-input');
 
+    // Open via button
     ctaButton.addEventListener('click', () => {
         modal.classList.remove('hidden');
+        setTimeout(() => modalInput.focus(), 100);
     });
 
+    // Close via X button
     closeBtn.addEventListener('click', () => {
         modal.classList.add('hidden');
     });
 
+    // Close via clicking outside
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.add('hidden');
         }
     });
 
+    // Global Keyboard Shortcuts (J to open, Esc to close)
+    document.addEventListener('keydown', (e) => {
+        // Prevent triggering if user is already typing in an input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            if (e.key === 'Escape') {
+                modal.classList.add('hidden');
+                e.target.blur();
+            }
+            return;
+        }
+
+        if (e.key.toLowerCase() === 'j') {
+            e.preventDefault();
+            modal.classList.remove('hidden');
+            setTimeout(() => modalInput.focus(), 100);
+        }
+
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+        }
+    });
+
+    // Realistically "Collect" the email
     waitlistForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const emailInput = document.querySelector('.modal-input');
-        const email = emailInput.value;
+        const email = modalInput.value;
         
         let waitlist = JSON.parse(localStorage.getItem('log_waitlist') || '[]');
         waitlist.push({ email, date: new Date().toISOString() });
@@ -131,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     });
 
-    // 6. Scroll Reveal Animations
+    // 7. Scroll Reveal Animations
     const reveals = document.querySelectorAll('.reveal');
     const revealOptions = {
         threshold: 0.1,
@@ -161,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 100);
 
-    // 7. Easter Egg: Konami Code
+    // 8. Easter Egg: Konami Code
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
 
